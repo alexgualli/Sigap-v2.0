@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>ServAsignarMedidor</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServAsignarMedidor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServBuscarCliente</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServBuscarCliente</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServIngresoCliente</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServIngresoCliente</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServIngresoConsumo</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServIngresoConsumo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServAsignarMedidor</servlet-name>
+        <url-pattern>/AsignarMedidor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServBuscarCliente</servlet-name>
+        <url-pattern>/BuscarCliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServIngresoCliente</servlet-name>
+        <url-pattern>/IngresoCliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServIngresoConsumo</servlet-name>
+        <url-pattern>/IngresoConsumo</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
