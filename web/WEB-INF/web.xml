@@ -16,6 +16,26 @@
         <servlet-name>ServIngresoConsumo</servlet-name>
         <servlet-class>ec.gob.sigap.servlet.ServIngresoConsumo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SerBuscarClienteMed</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServBuscarClienteMed</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServBuscarClienteMed</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServBuscarClienteMed</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServBuscarMedidor</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServBuscarMedidor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServLogeo</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServLogeo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServMostrarCliente</servlet-name>
+        <servlet-class>ec.gob.sigap.servlet.ServMostrarCliente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServAsignarMedidor</servlet-name>
         <url-pattern>/AsignarMedidor</url-pattern>
@@ -31,6 +51,22 @@
     <servlet-mapping>
         <servlet-name>ServIngresoConsumo</servlet-name>
         <url-pattern>/IngresoConsumo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServBuscarClienteMed</servlet-name>
+        <url-pattern>/BuscarClienteMed</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServBuscarMedidor</servlet-name>
+        <url-pattern>/BuscarMedidor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServLogeo</servlet-name>
+        <url-pattern>/Logeo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServMostrarCliente</servlet-name>
+        <url-pattern>/MostrarCliente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
