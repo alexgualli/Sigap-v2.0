@@ -5,6 +5,8 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Cliente;
+import ec.gob.sigap.implementacion.ImpCliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,15 +34,21 @@ public class ServBuscarClienteMed extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServBuscarClienteMed</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServBuscarClienteMed at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+             String dato = request.getParameter("txtbuscar");
+            
+            ImpCliente imp = new ImpCliente();
+            
+            Cliente cliente = new Cliente();
+            
+            try {
+                cliente = imp.obtenerCed(dato);
+            } catch (Exception e) {
+                request.getRequestDispatcher("index.html").forward(request, response);
+            }
+            
+            request.getSession().setAttribute("clientebus", cliente);
+            
+            request.getRequestDispatcher("FormularioMedidor.jsp").forward(request, response);
         }
     }
 

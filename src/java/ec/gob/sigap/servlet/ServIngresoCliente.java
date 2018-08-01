@@ -5,8 +5,14 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Cliente;
+import ec.gob.sigap.entidades.Deuda;
+import ec.gob.sigap.implementacion.ImpCliente;
+import ec.gob.sigap.implementacion.ImpDeuda;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +38,68 @@ public class ServIngresoCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServIngresoCliente</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServIngresoCliente at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String nombre = request.getParameter("txtnombre");
+            String apellido = request.getParameter("txtapellido");
+            String direccion = request.getParameter("txtdireccion");
+            String cedula = request.getParameter("txtcedula");
+            String correo = request.getParameter("txtcorreo");
+            String fechaNac = request.getParameter("txtfechanac");
+            String telefono = request.getParameter("txttelefono");
+            int edad = Integer.parseInt(request.getParameter("txtedad"));
+            int codigdis = Integer.parseInt(request.getParameter("txtcodis"));
+            int codigodeu = 0;
+            
+            ImpCliente impcliente = new ImpCliente();
+            ImpDeuda impDeuda = new ImpDeuda();
+            
+            Cliente cliente = new Cliente();
+            Cliente cliente2 = new Cliente();
+            Deuda deuda = new Deuda();
+       
+            cliente.setApellido(apellido);
+            cliente.setCedula(cedula);
+            cliente.setCodigoDis(codigdis);
+            cliente.setDireccion(direccion);
+            cliente.setFechaNac(fechaNac);
+            cliente.setNombre(nombre);
+            cliente.setTelefono(telefono);
+            cliente.setEdad(edad);
+            
+            if(correo!=""){
+                cliente.setCorreo(correo);                
+            }
+            else{
+                cliente.setCorreo(cedula+"@sigap.com");                
+            }     
+            
+            if(telefono!=""){
+                cliente.setTelefono(telefono);                
+            }
+            else{
+                cliente.setTelefono("1111111111");                
+            }  
+            
+            try {                
+                impcliente.insertar(cliente);                 
+            } catch (Exception ex) {
+                Logger.getLogger(ServIngresoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            try {
+                cliente2=impcliente.obtenerCed(cedula);                     
+                codigodeu=cliente2.getCodigo();
+                deuda.setCodigo(codigodeu);
+                deuda.setCliente(cliente2);
+                impDeuda.insertar(deuda);
+            } catch (Exception ex) {
+                Logger.getLogger(ServIngresoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+            
+            request.getRequestDispatcher("FormularioCliente.jsp").forward(request, response);
         }
     }
 

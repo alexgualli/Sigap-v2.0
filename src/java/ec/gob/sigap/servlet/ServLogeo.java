@@ -5,12 +5,17 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Usuario;
+import ec.gob.sigap.implementacion.ImpUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,15 +37,51 @@ public class ServLogeo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServLogeo</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServLogeo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+             HttpSession sesion = request.getSession();//crear sesion
+            
+             String nombre=request.getParameter("txtnombre");
+            String pass=request.getParameter("txtclave");
+                 
+            ImpUsuario impusuario = new ImpUsuario();
+            Usuario usuario= new Usuario();
+               
+            try {
+                usuario=impusuario.obtenerLogin(nombre, pass);
+                int nivel= usuario.getNivel();
+                
+            switch(nivel){
+                case 1:{
+                    sesion.setAttribute("nombre", nombre);
+                    sesion.setAttribute("password", pass);
+                    sesion.setAttribute("nivel", nivel);
+                    
+                    request.getRequestDispatcher("FormularioPrincipal.jsp").forward(request, response);
+            
+                    break;
+                }
+                case 2:{
+                    sesion.setAttribute("nombre", nombre);
+                    sesion.setAttribute("password", pass);
+                    sesion.setAttribute("nivel", nivel);
+                    
+                    request.getRequestDispatcher("FormularioPrincipal_1.jsp").forward(request, response);
+                 
+                    
+                    break;
+                }
+                default:{
+                    String error="Credenciales incorrectas";
+                    request.getSession().setAttribute("error", error);
+                    
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                
+                    break;
+                }
+            }
+             
+            } catch (Exception ex) {
+                Logger.getLogger(ServLogeo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

@@ -5,6 +5,10 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Cliente;
+import ec.gob.sigap.entidades.Medidor;
+import ec.gob.sigap.implementacion.ImpCliente;
+import ec.gob.sigap.implementacion.ImpMedidor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,16 +36,31 @@ public class ServAsignarMedidor extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServAsignarMedidor</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServAsignarMedidor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            String cedulacli = request.getParameter("txtcedulacli");
+            String codigo = request.getParameter("txtcodigomed");
+            String tipo = request.getParameter("txttipomed");
+            
+            ImpMedidor imp = new ImpMedidor();
+            ImpCliente impCliente = new ImpCliente();
+            
+            Medidor medidor = new Medidor();
+            Cliente cliente = new Cliente();
+            
+            medidor.setCodigo(codigo);
+            medidor.setTipoMed(tipo);
+            
+            try {
+                cliente = impCliente.obtenerCed(cedulacli);
+                medidor.setCliente(cliente);
+                imp.insertar(medidor);                
+            } catch (Exception e) {         
+            request.getRequestDispatcher("index.html").forward(request, response);
+            
+            }
+            
+            request.getSession().setAttribute("clientebus", cliente);
+            
+            request.getRequestDispatcher("FormularioCliente.jsp").forward(request, response);        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

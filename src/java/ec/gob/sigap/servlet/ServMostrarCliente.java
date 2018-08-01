@@ -5,8 +5,12 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Cliente;
+import ec.gob.sigap.implementacion.ImpCliente;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +36,21 @@ public class ServMostrarCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServMostrarCliente</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServMostrarCliente at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            ImpCliente imp = new ImpCliente();
+    
+            List<Cliente> lst = new ArrayList<>();
+
+            try {
+                lst = imp.obtenerTodos();                
+            } catch (Exception e) {
+                System.out.print("error: " + e);
+            }
+
+           
+
+            request.getSession().setAttribute("lista", lst);
+            request.getRequestDispatcher("FormularioReporteCliente.jsp").forward(request, response);
+
         }
     }
 

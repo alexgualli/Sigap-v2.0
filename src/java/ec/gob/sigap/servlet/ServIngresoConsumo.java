@@ -5,8 +5,14 @@
  */
 package ec.gob.sigap.servlet;
 
+import ec.gob.sigap.entidades.Consumo;
+import ec.gob.sigap.entidades.Medidor;
+import ec.gob.sigap.implementacion.ImpConsumo;
+import ec.gob.sigap.implementacion.ImpMedidor;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +38,33 @@ public class ServIngresoConsumo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServIngresoConsumo</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServIngresoConsumo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            int lecturaanterior = Integer.parseInt(request.getParameter("txtlecturaanterior"));
+
+            int lecturaactual = Integer.parseInt(request.getParameter("txtlecturaactual"));
+            int consumo = Integer.parseInt(request.getParameter("txtconsumo"));
+            String fechaemision = request.getParameter("txtfechaemision");
+
+            String medidor = request.getParameter("txtmedidor");
+        
+
+            ImpConsumo imp = new ImpConsumo();
+            Consumo consum = new Consumo();
+            ImpMedidor impmed = new ImpMedidor();
+            Medidor medid = new Medidor();
+            medid.setCodigo(medidor);
+            Medidor codmed = medid;
+            consum.setLecturaAct(lecturaactual);
+            consum.setLecturaAnt(lecturaanterior);
+            consum.setFecha(fechaemision);
+            consum.setMedidor(codmed);
+
+            try {
+                imp.insertar(consum);
+            } catch (Exception ex) {
+                Logger.getLogger(ServIngresoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             request.getRequestDispatcher("FormularioConsumo.jsp").forward(request, response);
+
         }
     }
 
